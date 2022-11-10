@@ -1,2 +1,5 @@
 # BRUH (Battlefront Robot Using Hand-tracking)
-<img src="https://raw.githubusercontent.com/kkr0913/BRUH/main/image/1.png" width=50%>
+<p float="left">
+  <img src="https://raw.githubusercontent.com/kkr0913/BRUH/main/image/1.png" width=48% align="left"  />
+  <img src="https://raw.githubusercontent.com/kkr0913/BRUH/main/image/2.png" width=48% align="right" />
+</p>
