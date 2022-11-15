@@ -1,8 +1,3 @@
-/*********
-  Rui Santos
-  Complete project details at https://randomnerdtutorials.com  
-*********/
-
 // Front Right Motor
 const int MOTOR0PIN1 = 12;
 const int MOTOR0PIN2 = 14;
@@ -38,6 +33,7 @@ const int pwmChannel4 = 4;
 const int resolution = 8;
 int dutyCycle = 200;
 
+byte rxbyte = 0x00;
 
 
 void stopMoving() {
@@ -115,22 +111,6 @@ void moveLeft() {
   ledcWrite(pwmChannel3, dutyCycle);
 }
 
-void turnLeft() {
-  digitalWrite(MOTOR0PIN1, HIGH);
-  digitalWrite(MOTOR0PIN2, LOW);
-  digitalWrite(MOTOR1PIN1, HIGH);
-  digitalWrite(MOTOR1PIN2, LOW);
-  digitalWrite(MOTOR2PIN1, HIGH);
-  digitalWrite(MOTOR2PIN2, LOW);
-  digitalWrite(MOTOR3PIN1, HIGH);
-  digitalWrite(MOTOR3PIN2, LOW);
-
-  ledcWrite(pwmChannel0, dutyCycle);
-  ledcWrite(pwmChannel1, dutyCycle);
-  ledcWrite(pwmChannel2, dutyCycle);
-  ledcWrite(pwmChannel3, dutyCycle);
-}
-
 void turnRight() {
   digitalWrite(MOTOR0PIN1, LOW);
   digitalWrite(MOTOR0PIN2, HIGH);
@@ -147,6 +127,48 @@ void turnRight() {
   ledcWrite(pwmChannel3, dutyCycle);
 }
 
+void turnLeft() {
+  digitalWrite(MOTOR0PIN1, HIGH);
+  digitalWrite(MOTOR0PIN2, LOW);
+  digitalWrite(MOTOR1PIN1, HIGH);
+  digitalWrite(MOTOR1PIN2, LOW);
+  digitalWrite(MOTOR2PIN1, HIGH);
+  digitalWrite(MOTOR2PIN2, LOW);
+  digitalWrite(MOTOR3PIN1, HIGH);
+  digitalWrite(MOTOR3PIN2, LOW);
+
+  ledcWrite(pwmChannel0, dutyCycle);
+  ledcWrite(pwmChannel1, dutyCycle);
+  ledcWrite(pwmChannel2, dutyCycle);
+  ledcWrite(pwmChannel3, dutyCycle);
+}
+
+void testRide() {
+  moveForward();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+  moveBackward();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+  moveRight();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+  moveLeft();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+  turnRight();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+  turnLeft();
+  delay(2000);
+  stopMoving();
+  delay(1000);
+}
 
 
 void setup() {
@@ -182,28 +204,16 @@ void setup() {
 }
 
 void loop() {
-  moveForward();
-  delay(2000);
-  stopMoving();
-  delay(1000);
-  moveBackward();
-  delay(2000);
-  stopMoving();
-  delay(1000);
-  moveRight();
-  delay(2000);
-  stopMoving();
-  delay(1000);
-  moveLeft();
-  delay(2000);
-  stopMoving();
-  delay(1000);
-  turnRight();
-  delay(2000);
-  stopMoving();
-  delay(1000);
-  turnLeft();
-  delay(2000);
-  stopMoving();
-  delay(1000);
+  if (Serial.available()) rxbyte = Serial.read();
+  else rxbyte = 0x00;
+
+  if (rxbyte == 0x01) moveForward();
+  else if (rxbyte == 0x02) moveBackward();
+  else if (rxbyte == 0x03) moveRight();
+  else if (rxbyte == 0x04) moveLeft();
+  else if (rxbyte == 0x05) turnRight();
+  else if (rxbyte == 0x06) turnLeft();
+  else stopMoving();
+
+  delay(15);
 }
